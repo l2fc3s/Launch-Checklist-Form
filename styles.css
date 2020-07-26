@@ -1,5 +1,17 @@
+html {
+    background-color: black;
+    background-image: url(https://wallpapercave.com/wp/H0V97vs.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    z-index: -2;
+    font-family: 'News Cycle', sans-serif;
+}
+
 h1 {
     text-align: center;
+    color: white;
+    font-size: 2.3em;
 }
 
 div {
@@ -7,7 +19,7 @@ div {
 }
 
 #faultyItems {
-    visibility: hidden;   
+    visibility: hidden; 
 }
 
 #launchForm {
@@ -16,7 +28,9 @@ div {
     margin: auto;
     width: 25%;
     border: 3px solid black;
+    border-radius: 5px;
     padding: 10px;
+    box-shadow: 5px 10px 28px #020202;
 }
 
 #launchStatusCheck {
@@ -25,7 +39,9 @@ div {
     margin: 50px auto;
     width: 50%;
     border: 3px solid black;
+    border-radius: 5px;
     padding: 10px;
+    box-shadow: 5px 10px 28px #020202;
 }
 
 #missionTarget img {
@@ -39,15 +55,31 @@ div {
     margin: 50px auto;
     width: 50%;
     border: 3px solid black;
+    border-radius: 5px;
     padding: 10px;
+    box-shadow: 5px 10px 28px #020202;
 }
 
-button {
+#missionTarget > ol {
+    text-align: left;
+}
+
+#formSubmit {
     background-color: #419f6a;
     border: none;
     color: white;
-    border-radius: 8px;
-    width: 25%;
+    border-radius: 5px;
+    text-transform: uppercase;
+    max-width: 150px;
+    width: 100%;
     height: 30px;
-    margin: 10px 0;
+    margin: 15px 0;
+    border: 0;
+    transition: 0.3s;
+    font-size: 1em;
+}
+
+#formSubmit:hover {
+    background-color: #ffbb00;
+    color: black;
 }

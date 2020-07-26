@@ -1,13 +1,101 @@
-// Write your JavaScript code here!
+window.addEventListener("load", function () {
+  let form = document.querySelector("form");
 
-/* This block of code shows how to format the HTML once you fetch some planetary JSON!
-<h2>Mission Destination</h2>
-<ol>
-   <li>Name: ${}</li>
-   <li>Diameter: ${}</li>
-   <li>Star: ${}</li>
-   <li>Distance from Earth: ${}</li>
-   <li>Number of Moons: ${}</li>
-</ol>
-<img src="${}">
-*/
+  let pilotNameInput = document.querySelector("input[name= pilotName]");
+  let copilotNameInput = document.querySelector("input[name= copilotName]");
+  let fuelLevelInput = document.querySelector("input[name= fuelLevel]");
+  let cargoMassInput = document.querySelector("input[name= cargoMass]");
+
+  let faultyItems = document.getElementById("faultyItems");
+
+  let fuelStatus = document.getElementById("fuelStatus");
+  let launchStatus = document.getElementById("launchStatus");
+  let cargoStatus = document.getElementById("cargoStatus");
+  let pilotStatus = document.getElementById("pilotStatus");
+  let copilotStatus = document.getElementById("copilotStatus");
+
+  //Fetching Planetary Data JSON!!
+  // see open tabs for reference including github studio
+  let missionTarget = document.getElementById("missionTarget");
+
+  fetch("https://handlers.education.launchcode.org/static/planets.json")
+    .then((response) => response.json())
+    .then((data) => {
+      let index = Math.floor(Math.random() * data.length);
+      console.log(data);
+      missionTarget.innerHTML += `
+         <h2>Mission Destination</h2>
+         <ol>
+            <li>Name: ${data[index].name}</li>
+            <li>Diameter: ${data[index].diameter}</li>
+            <li>Star: ${data[index].star}</li>
+            <li>Distance from Earth: ${data[index].distance}</li>
+            <li>Number of Moons: ${data[index].moons}</li>
+         </ol>
+         <img src="${data[index].image}">         
+         `;
+    });
+
+  // The pilot and co-pilot names should be strings and the fuel level and cargo mass should be numbers.
+
+  form.addEventListener("submit", function (event) {
+    //launch ready check
+    if (fuelLevelInput.value >= 10000 && cargoMassInput.value <= 10000) {
+      launchStatus.innerHTML = "Shuttle is ready for launch!";
+      launchStatus.style.color = "green";
+      faultyItems.style.visibility = "hidden";
+      event.preventDefault();
+    }
+
+    //basic validator & data type validator
+    if (
+      pilotNameInput.value === "" ||
+      copilotNameInput.value === "" ||
+      fuelLevelInput.value === "" ||
+      cargoMassInput.value === ""
+    ) {
+      alert("All fields are required!");
+      launchStatus.innerHTML = "Awaiting Information Before Launch";
+      launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
+      event.preventDefault();
+    } else if (!isNaN(pilotNameInput.value) || !isNaN(copilotNameInput.value)) {
+      alert("Please enter a valid Pilot or Co-pilot name");
+      launchStatus.innerHTML = "Awaiting Information Before Launch";
+      launchStatus.style.color = "black";
+      event.preventDefault();
+    } else if (isNaN(fuelLevelInput.value) || isNaN(cargoMassInput.value)) {
+      alert("Please enter a valid number for Fuel Level or Cargo Mass");
+      launchStatus.innerHTML = "Awaiting Information Before Launch";
+      launchStatus.style.color = "black";
+      event.preventDefault();
+    }
+
+    // Using template literals, update pilotStatus and copilotStatus to include name.
+    pilotStatus.innerHTML = `Pilot: ${pilotNameInput.value}`;
+    copilotStatus.innerHTML = `Co-pilot: ${copilotNameInput.value}`;
+
+    //Fuel Level and cargo mass safety check.
+    if (fuelLevelInput.value < 10000 && fuelLevelInput.value !== "") {
+      faultyItems.style.visibility = "visible";
+      fuelStatus.innerHTML = "Not enough fuel for the journey.";
+      launchStatus.innerHTML = "Shuttle not ready for launch!";
+      launchStatus.style.color = "red";
+      event.preventDefault();
+    } else {
+      fuelStatus.innerHTML = "Fuel level high enough for launch";
+      event.preventDefault();
+    }
+    if (cargoMassInput.value > 10000 && cargoMassInput.value !== "") {
+      faultyItems.style.visibility = "visible";
+      cargoStatus.innerHTML =
+        "There is too much mass for the shuttle to take off";
+      launchStatus.innerHTML = "Shuttle not ready for launch!";
+      launchStatus.style.color = "red";
+      event.preventDefault();
+    } else {
+      cargoStatus.innerHTML = "Cargo mass low enough for launch.";
+      event.preventDefault();
+    }
+  });
+});
