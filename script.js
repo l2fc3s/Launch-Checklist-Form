@@ -15,7 +15,7 @@ window.addEventListener("load", function () {
   let copilotStatus = document.getElementById("copilotStatus");
 
   //Fetching Planetary Data JSON!!
-  // see open tabs for reference including github studio
+
   let missionTarget = document.getElementById("missionTarget");
 
   fetch("https://handlers.education.launchcode.org/static/planets.json")
