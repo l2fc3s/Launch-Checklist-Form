@@ -48,11 +48,7 @@ window.addEventListener("load", function () {
     }
 
     //basic validator & data type validator
-    if (
-      pilotNameInput.value === "" ||
-      copilotNameInput.value === "" ||
-      fuelLevelInput.value === "" ||
-      cargoMassInput.value === ""
+    if (pilotNameInput.value === "" || copilotNameInput.value === "" || fuelLevelInput.value === "" ||cargoMassInput.value === ""
     ) {
       alert("All fields are required!");
       launchStatus.innerHTML = "Awaiting Information Before Launch";
@@ -68,34 +64,60 @@ window.addEventListener("load", function () {
       alert("Please enter a valid number for Fuel Level or Cargo Mass");
       launchStatus.innerHTML = "Awaiting Information Before Launch";
       launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
       event.preventDefault();
     }
 
     // Using template literals, update pilotStatus and copilotStatus to include name.
-    pilotStatus.innerHTML = `Pilot: ${pilotNameInput.value}`;
-    copilotStatus.innerHTML = `Co-pilot: ${copilotNameInput.value}`;
+    pilotStatus.innerHTML = `Pilot ${pilotNameInput.value} is ready for launch`;
+    copilotStatus.innerHTML = `Co-pilot ${copilotNameInput.value} is ready for launch`;
 
     //Fuel Level and cargo mass safety check.
-    if (fuelLevelInput.value < 10000 && fuelLevelInput.value !== "") {
+    if (fuelLevelInput.value < 10000) {
       faultyItems.style.visibility = "visible";
       fuelStatus.innerHTML = "Not enough fuel for the journey.";
       launchStatus.innerHTML = "Shuttle not ready for launch!";
       launchStatus.style.color = "red";
       event.preventDefault();
-    } else {
+        if(fuelLevelInput.value === "") {
+          launchStatus.innerHTML = "Awaiting Information   Before Launch";
+          launchStatus.style.color = "black";
+          faultyItems.style.visibility = "hidden";
+        }
+    } else { // this line is faulty
       fuelStatus.innerHTML = "Fuel level high enough for launch";
       event.preventDefault();
     }
-    if (cargoMassInput.value > 10000 && cargoMassInput.value !== "") {
+
+    if (cargoMassInput.value > 10000) {
       faultyItems.style.visibility = "visible";
       cargoStatus.innerHTML =
         "There is too much mass for the shuttle to take off";
       launchStatus.innerHTML = "Shuttle not ready for launch!";
       launchStatus.style.color = "red";
       event.preventDefault();
+    } else if(cargoMassInput.value === "") {
+      launchStatus.innerHTML = "Awaiting Information   Before Launch";
+      launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
+    } else if(isNaN(cargoMassInput.value)) {
+      launchStatus.innerHTML = "Awaiting Information   Before Launch";
+      launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
     } else {
       cargoStatus.innerHTML = "Cargo mass low enough for launch.";
       event.preventDefault();
     }
+    
+    if(pilotNameInput.value === "" || isNaN(pilotNameInput.value) === false) {
+      launchStatus.innerHTML = "Awaiting Information   Before Launch";
+      launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
+    } else if (copilotNameInput.value === "" || isNaN(copilotNameInput.value) === false) {
+      launchStatus.innerHTML = "Awaiting Information   Before Launch";
+      launchStatus.style.color = "black";
+      faultyItems.style.visibility = "hidden";
+    }
+
   });
 });
